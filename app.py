@@ -57,7 +57,7 @@ def lire_stations():
 
 @app.get("/sante")
 def sante():
-    """Retourne le statut de fonctionnement de API."""
+    """Verifie que le service velos-api est operationnel."""
     return jsonify({"statut": "ok"})
 
 
