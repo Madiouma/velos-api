@@ -1,0 +1,28 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: velos
+      POSTGRES_USER: velos
+      POSTGRES_PASSWORD: velos
+    volumes:
+      - velos_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U velos -d velos"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build: .
+    ports:
+      - "8001:8000"
+    environment:
+      DATABASE_URL: postgresql://velos:velos@db:5432/velos
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  velos_data:
