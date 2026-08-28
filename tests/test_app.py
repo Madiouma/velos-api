@@ -11,7 +11,7 @@ def test_sante_repond_ok():
 def test_alertes_sans_base():
     client = app.test_client()
     reponse = client.get("/alertes")
-    assert reponse.status_code == 500
+    assert reponse.status_code == 200
 
     donnees = reponse.get_json()
     assert donnees["source"] == "memoire"
